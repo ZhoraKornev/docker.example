@@ -1,4 +1,5 @@
-FROM rabbitmq:management
+FROM rabbitmq:3.8-management
+RUN #rabbitmq-plugins enable --offline rabbitmq_mqtt rabbitmq_federation_management rabbitmq_stomp
 
 RUN apt-get update && apt-get install -y curl && apt-get clean
 
