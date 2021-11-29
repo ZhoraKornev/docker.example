@@ -6,6 +6,7 @@
 .env
 .env.backup
 .phpunit.result.cache
+.docker-compose.override.yml
 Homestead.json
 Homestead.yaml
 npm-debug.log
@@ -17,3 +18,12 @@ _ide_helper.php
 /.vagrant
 /nbproject/
 /.cache
+/var/cache/*
+/var/logs/*
+/var/sessions/*
+!var/cache/.gitkeep
+!var/logs/.gitkeep
+!var/sessions/.gitkeep
+/db
+/rabbitmq
+/docker/php/composer
