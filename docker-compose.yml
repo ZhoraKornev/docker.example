@@ -15,7 +15,7 @@ services:
     logging: *default-logging
 
   db:
-    image: mariadb
+    image: mysql
     container_name: example_app_db
     restart: unless-stopped
     env_file:
