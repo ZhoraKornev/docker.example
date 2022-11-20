@@ -24,44 +24,17 @@ services:
       - ./db/data:/var/lib/mysql
     logging: *default-logging
 
-  nginx:
-    build: ./docker/nginx/build
-    image: nginx
-    container_name: example_app_nginx
-    restart: unless-stopped
-    depends_on:
-      - php
-    volumes:
-      - ./docker/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
-      - ./docker/nginx/config:/etc/nginx/conf.d:ro
-      - ./app:/app
-    logging: *default-logging
-
   php:
-    build: ./docker/php/build
-    image: php-8
+    build:
+      context: ./docker/php/build
+      dockerfile: Dockerfile
     container_name: example_app_php
     restart: unless-stopped
     depends_on:
       - db
-    env_file:
-      - ./.env
     volumes:
-      - ./docker/php/config/msmtprc:/etc/msmtprc:ro
-      - ./docker/php/config/php.ini:/usr/local/etc/php/conf.d/my.ini:ro
-      - ./docker/php/config/www.conf:/usr/local/etc/php-fpm.d/www.conf:ro
       - composer:/root/.composer/cache
       - ./app:/app
-    logging: *default-logging
-
-  rabbitmq:
-    build: ./docker/rabbitmq
-    restart: always
-    container_name: example_app_rabbitmq
-    image: rabbitmq:management
-    hostname: rabbitmq
-    volumes:
-      - ./rabbitmq:/var/lib/rabbitmq:cached
     logging: *default-logging
 
 volumes:
