@@ -14,6 +14,19 @@ services:
     restart: unless-stopped
     logging: *default-logging
 
+  nginx:
+    build: ./docker/nginx/build
+    image: nginx
+    container_name: example_app_nginx
+    restart: unless-stopped
+    depends_on:
+      - php
+    volumes:
+      - ./docker/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./docker/nginx/config:/etc/nginx/conf.d:ro
+      - ./app:/app
+    logging: *default-logging
+
   db:
     image: mariadb
     container_name: example_app_db
@@ -35,6 +48,16 @@ services:
     volumes:
       - composer:/root/.composer/cache
       - ./app:/app
+    logging: *default-logging
+
+  rabbitmq:
+    build: ./docker/rabbitmq
+    restart: always
+    container_name: example_app_rabbitmq
+    image: rabbitmq:management
+    hostname: rabbitmq
+    volumes:
+      - ./rabbitmq:/var/lib/rabbitmq:cached
     logging: *default-logging
 
 volumes:
