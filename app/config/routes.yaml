@@ -5,3 +5,7 @@ controllers:
 kernel:
     resource: ../src/Kernel.php
     type: annotation
+
+dukecity_command_scheduler:
+    resource: "@DukecityCommandSchedulerBundle/Resources/config/routing.php"
+    prefix:   /
