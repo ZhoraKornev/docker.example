@@ -8,16 +8,10 @@ x-logging:
     max-size: "20m"
 
 services:
-  mailhog:
-    image: mailhog/mailhog
-    container_name: example_app_mailhog
-    restart: unless-stopped
-    logging: *default-logging
-
   nginx:
     build: ./docker/nginx/build
     image: nginx
-    container_name: example_app_nginx
+    container_name: ${APP_NAME}_app_nginx
     restart: unless-stopped
     depends_on:
       - php
@@ -29,7 +23,7 @@ services:
 
   db:
     image: mariadb
-    container_name: example_app_db
+    container_name: ${APP_NAME}_app_db
     restart: unless-stopped
     env_file:
       - ./.env
@@ -41,7 +35,7 @@ services:
     build:
       context: ./docker/php/build
       dockerfile: Dockerfile
-    container_name: example_app_php
+    container_name: ${APP_NAME}_app_php
     restart: unless-stopped
     depends_on:
       - db
@@ -53,7 +47,7 @@ services:
   rabbitmq:
     build: ./docker/rabbitmq
     restart: always
-    container_name: example_app_rabbitmq
+    container_name: ${APP_NAME}_app_rabbitmq
     image: rabbitmq:management
     hostname: rabbitmq
     volumes:
